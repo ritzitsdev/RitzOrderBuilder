@@ -114,7 +114,7 @@ namespace RitzOrderBuilder
         build.builder(this);
       }
       catch(Exception ex) {
-        MessageBox.Show("There was an error building the order./nPlease check all fields and try again.");
+        MessageBox.Show("There was an error building the order.\nPlease check all fields and try again.\n" + ex);
       }
       finally
       {

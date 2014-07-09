@@ -253,6 +253,7 @@
       this.quantity.Name = "quantity";
       this.quantity.Size = new System.Drawing.Size(75, 20);
       this.quantity.TabIndex = 20;
+      this.quantity.Text = "1";
       // 
       // btnCreateOrder
       // 

@@ -32,45 +32,84 @@ namespace RitzOrderBuilder
       }else{
         MessageBox.Show("PDF file not found.");
       }
-      //MessageBox.Show(Convert.ToString(pageCount));
 
-      int basePrice = calculateBasePrice(pageCount, productId, qty);
+      decimal basePrice = calculateBasePrice(pageCount, productId, qty);
+      var additionalPageCount = countAdditionalPages(pageCount, productId, qty);
+      int extraPageCount = additionalPageCount.Item1;
+      decimal pricePerExtraPage = additionalPageCount.Item2;
+      decimal totalPriceExtraPages = extraPageCount * pricePerExtraPage;
+      //string orderNum = createOrderNum(storeNum);
+      MessageBox.Show(Convert.ToString(DateTime.Now));
     } //end builder
 
     private static int countPages(string pdfLocation)
     {
       PdfReader pdfReader = new PdfReader(pdfLocation);
       int numberOfPages = pdfReader.NumberOfPages;
-      //MessageBox.Show(Convert.ToString(numberOfPages));
       return numberOfPages;
     } //end countPages
 
-    private static int calculateBasePrice(int pageCount, string productId, int qty)
+    private static decimal calculateBasePrice(int pageCount, string productId, int qty)
     {
-      int price = 0;
+      decimal price = 0;
       string pathProducts = @"C:\Program Files\ITS\OrderBuilder\builderSettings.xml";
       if (File.Exists(pathProducts))
       {
         XDocument xDocProducts = XDocument.Load(pathProducts);
-        var qryProducts = from products in xDocProducts.Elements("order_builder").Elements("products")
+        var qryProducts = from products in xDocProducts.Descendants("product")
                           where (string)products.Attribute("id") == productId
-                            select products;
+                          select products;
         foreach (var item in qryProducts)
         {
-          price = Convert.ToInt32(item.Element("fulfillment_option").Attribute("base").Value);
+          price = Convert.ToDecimal(item.Element("fulfillment_option").Attribute("base").Value);
         }
-        var qryQtyPrices = from qty_prices in xDocProducts.Elements("order_builder").Elements("products")
-                           where (string)qty_prices.Attribute("id") == productId
-                           select qty_prices.Elements("fulfillment_option").Elements("qty_pricing");
+
+        var qryQtyPrices = from qty_prices in qryProducts.Descendants("qty_pricing")
+                           select qty_prices;
         foreach(XElement qty_price in qryQtyPrices)
         {
           int qtyPriceLevel = Convert.ToInt32(qty_price.Attribute("min").Value);
-          if(qty > qtyPriceLevel){
-            price = Convert.ToInt32(qty_price.Attribute("price").Value);
+          if(qty >= qtyPriceLevel){
+            price = Convert.ToDecimal(qty_price.Attribute("price").Value);
           }
         }
       }
       return price;
     } //end calculateBasePrice
+
+    private Tuple<int, decimal> countAdditionalPages(int pageCount, string productId, int qty)
+    {
+      string pathProducts = @"C:\Program Files\ITS\OrderBuilder\builderSettings.xml";
+      int extraPages = 0;
+      decimal pricePerPage = 0;
+      if (File.Exists(pathProducts))
+      {
+        XDocument xDocProducts = XDocument.Load(pathProducts);
+        var qryProducts = from products in xDocProducts.Descendants("product")
+                          where (string)products.Attribute("id") == productId
+                          select products;
+        foreach (var item in qryProducts)
+        {
+          int base_page_num = Convert.ToInt32(item.Element("fulfillment_option").Attribute("base_page_num").Value);
+          extraPages = pageCount - base_page_num;
+          pricePerPage = Convert.ToDecimal(item.Element("fulfillment_option").Attribute("increment_price").Value);
+        }
+
+        var qryPricePerExtraPage = from pricePerExtraPage in qryProducts.Descendants("qty_pricing")
+                                   select pricePerExtraPage;
+        foreach(XElement per_page in qryPricePerExtraPage){
+          int qtyPriceLevel = Convert.ToInt32(per_page.Attribute("min").Value);
+          if(qty >= qtyPriceLevel){
+            pricePerPage = Convert.ToDecimal(per_page.Attribute("increment_price").Value);
+          }
+        }
+      }
+      return Tuple.Create(extraPages, pricePerPage);
+    } //end countAdditionalPages
+
+    //private static string createOrderNum(string store)
+   // {
+
+   // }
   }
 }
