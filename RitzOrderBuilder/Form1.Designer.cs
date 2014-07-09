@@ -52,6 +52,7 @@
       this.button2 = new System.Windows.Forms.Button();
       this.label1 = new System.Windows.Forms.Label();
       this.quantity = new System.Windows.Forms.TextBox();
+      this.btnCreateOrder = new System.Windows.Forms.Button();
       this.SuspendLayout();
       // 
       // backgroundWorker1
@@ -253,11 +254,22 @@
       this.quantity.Size = new System.Drawing.Size(75, 20);
       this.quantity.TabIndex = 20;
       // 
+      // btnCreateOrder
+      // 
+      this.btnCreateOrder.Location = new System.Drawing.Point(321, 395);
+      this.btnCreateOrder.Name = "btnCreateOrder";
+      this.btnCreateOrder.Size = new System.Drawing.Size(75, 23);
+      this.btnCreateOrder.TabIndex = 21;
+      this.btnCreateOrder.Text = "Create Order";
+      this.btnCreateOrder.UseVisualStyleBackColor = true;
+      this.btnCreateOrder.Click += new System.EventHandler(this.btnCreateOrder_Click);
+      // 
       // Form1
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(417, 444);
+      this.Controls.Add(this.btnCreateOrder);
       this.Controls.Add(this.quantity);
       this.Controls.Add(this.label1);
       this.Controls.Add(this.button2);
@@ -281,7 +293,7 @@
       this.Controls.Add(this.lblDownloading);
       this.Name = "Form1";
       this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-      this.Text = "Form1";
+      this.Text = "Ritz Order Builder";
       this.Load += new System.EventHandler(this.Form1_Load);
       this.ResumeLayout(false);
       this.PerformLayout();
@@ -292,28 +304,29 @@
 
     private System.ComponentModel.BackgroundWorker backgroundWorker1;
     private System.Windows.Forms.Label lblDownloading;
-    private System.Windows.Forms.ComboBox selStoreNumber;
     private System.Windows.Forms.Label lblCustInfo;
-    private System.Windows.Forms.TextBox custFirstName;
     private System.Windows.Forms.Label lblFirstName;
-    private System.Windows.Forms.TextBox custLastName;
     private System.Windows.Forms.Label lblLastName;
-    private System.Windows.Forms.TextBox custPhone;
     private System.Windows.Forms.Label lblPhone;
-    private System.Windows.Forms.TextBox custEmail;
     private System.Windows.Forms.Label lblEmail;
     private System.Windows.Forms.Label lblSelectProduct;
-    private System.Windows.Forms.ComboBox productList;
     private System.Windows.Forms.Label lblSelectBookPDF;
     private System.Windows.Forms.OpenFileDialog openFileDialog1;
     private System.Windows.Forms.Button button1;
-    private System.Windows.Forms.TextBox PDFLocation;
     private System.Windows.Forms.Label lblCoverPath;
-    private System.Windows.Forms.TextBox jpgLocation;
     private System.Windows.Forms.OpenFileDialog openFileDialog2;
     private System.Windows.Forms.Button button2;
     private System.Windows.Forms.Label label1;
-    private System.Windows.Forms.TextBox quantity;
+    public System.Windows.Forms.ComboBox selStoreNumber;
+    public System.Windows.Forms.TextBox custFirstName;
+    public System.Windows.Forms.TextBox custLastName;
+    public System.Windows.Forms.TextBox custPhone;
+    public System.Windows.Forms.TextBox custEmail;
+    public System.Windows.Forms.TextBox PDFLocation;
+    public System.Windows.Forms.TextBox jpgLocation;
+    public System.Windows.Forms.ComboBox productList;
+    public System.Windows.Forms.TextBox quantity;
+    private System.Windows.Forms.Button btnCreateOrder;
   }
 }
 

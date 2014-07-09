@@ -11,6 +11,8 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using iTextSharp.text.pdf;
+using iTextSharp.text.xml;
 
 namespace RitzOrderBuilder
 {
@@ -80,7 +82,7 @@ namespace RitzOrderBuilder
       {
         XDocument xDocProducts = XDocument.Load(pathProducts);
         var qryProducts = from products in xDocProducts.Descendants("product")
-                          select new { ProductID = products.Attribute("id").Value, productName = products.Element("name").Value };
+                          select new { ProductID = products.Attribute("id").Value, productName = products.Attribute("name").Value };
 
         productList.ValueMember = "ProductID";
         productList.DisplayMember = "productName";
@@ -94,14 +96,30 @@ namespace RitzOrderBuilder
       DialogResult result = openFileDialog1.ShowDialog();
       string file = openFileDialog1.FileName;
       PDFLocation.Text = file;
-    }
+    } //end button1_click (pdf browse button)
 
     private void button2_Click(object sender, EventArgs e)
     {
       DialogResult result = openFileDialog2.ShowDialog();
       string file = openFileDialog2.FileName;
       jpgLocation.Text = file;
-    } //end populateProductList
+    } //end button2_click (jpg browse button)
 
+    private void btnCreateOrder_Click(object sender, EventArgs e)
+    {
+      this.Cursor = Cursors.WaitCursor;
+      try
+      {
+        buildit build = new buildit();
+        build.builder(this);
+      }
+      catch(Exception ex) {
+        MessageBox.Show("There was an error building the order./nPlease check all fields and try again.");
+      }
+      finally
+      {
+        this.Cursor = Cursors.Default;
+      }
+    } //end btnCreateOrder_Click
   }
 }
