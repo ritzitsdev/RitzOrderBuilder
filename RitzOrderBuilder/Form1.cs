@@ -65,6 +65,7 @@ namespace RitzOrderBuilder
       {
         XDocument xDocLocations = XDocument.Load(pathLocations);
         var qryLocations = from locations in xDocLocations.Descendants("location")
+                           where locations.Attribute("store_number").Value.IndexOf("0030") < 0
                            select new { Store = locations.Attribute("store_number").Value };
 
         selStoreNumber.ValueMember = "Store";
@@ -104,7 +105,7 @@ namespace RitzOrderBuilder
       string file = openFileDialog2.FileName;
       jpgLocation.Text = file;
     } //end button2_click (jpg browse button)
-
+    
     private void btnCreateOrder_Click(object sender, EventArgs e)
     {
       this.Cursor = Cursors.WaitCursor;
@@ -120,6 +121,55 @@ namespace RitzOrderBuilder
       {
         this.Cursor = Cursors.Default;
       }
+      formReset();
     } //end btnCreateOrder_Click
+    
+    private void btnPreview_Click(object sender, EventArgs e)
+    {
+      this.Cursor = Cursors.WaitCursor;
+      try
+      {
+        Preview preview = new Preview();
+        preview.buildPreview(this);
+      }
+      catch (Exception ex)
+      {
+        MessageBox.Show("There was an error building the order.\nPlease check all fields and try again.");
+      }
+      finally
+      {
+        this.Cursor = Cursors.Default;
+      }
+    } //end btnPreview_Click 
+
+    private void formReset()
+    {
+      custFirstName.Text = string.Empty;
+      custLastName.Text = string.Empty;
+      custPhone.Text = string.Empty;
+      custEmail.Text = string.Empty;
+      PDFLocation.Text = string.Empty;
+      jpgLocation.Text = string.Empty;
+      quantity.Text = "1";
+      orderNumber.Text = string.Empty;
+      pageCount.Text = string.Empty;
+      extraPages.Text = string.Empty;
+      orderTotal.Text = string.Empty;
+      lblInstructions1.Visible = false;
+      btnCreateOrder.Visible = false;
+      btnPreview.Visible = true;
+      btnUpdateForm.Visible = false;
+    }
+
+    private void btnClearForm_Click(object sender, EventArgs e)
+    {
+      formReset();
+    }
+
+    private void btnCancel_Click(object sender, EventArgs e)
+    {
+      formReset();
+      Application.Exit();
+    }
   }
 }

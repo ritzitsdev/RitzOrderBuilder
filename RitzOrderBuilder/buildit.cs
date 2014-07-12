@@ -17,99 +17,189 @@ namespace RitzOrderBuilder
     public void builder(Form1 form)
     {
       string storeNum = Convert.ToString(form.selStoreNumber.SelectedValue);
+      int apmId = Convert.ToInt32(storeNum) + 16000;
+      string apm_id = apmId.ToString();
       string firstName = form.custFirstName.Text;
       string lastName = form.custLastName.Text;
       string phone = form.custPhone.Text;
       string email = form.custEmail.Text;
       string pdfLocation = form.PDFLocation.Text;
+      string pdfName = pdfLocation.Split('\\').Last();
       string jpgLocation = form.jpgLocation.Text;
+      string jpgName = jpgLocation.Split('\\').Last();
       string productId = Convert.ToString(form.productList.SelectedValue);
-      int qty = Convert.ToInt32(form.quantity.Text);
-      
-      int pageCount = 0;
-      if(File.Exists(pdfLocation)){
-        pageCount = countPages(pdfLocation);
-      }else{
-        MessageBox.Show("PDF file not found.");
-      }
+      var productInfo = getProductName(productId);
+      string productName = productInfo.Item1;
+      string coverId = productInfo.Item2;
+      string coverName = getCoverName(coverId);
+      string qty = Convert.ToString(form.quantity.Text);
+      string orderNum = form.orderNumber.Text;
+      string pageCount = form.pageCount.Text;
+      string orderTotalWithDol = form.orderTotal.Text;
+      string orderTotal = orderTotalWithDol.Replace("$", "");
+      string extraPages = form.extraPages.Text;
+      string extraPageCount = extraPages.Split(' ')[0];
 
-      decimal basePrice = calculateBasePrice(pageCount, productId, qty);
-      var additionalPageCount = countAdditionalPages(pageCount, productId, qty);
-      int extraPageCount = additionalPageCount.Item1;
-      decimal pricePerExtraPage = additionalPageCount.Item2;
-      decimal totalPriceExtraPages = extraPageCount * pricePerExtraPage;
-      //string orderNum = createOrderNum(storeNum);
-      MessageBox.Show(Convert.ToString(DateTime.Now));
+      string tempFolderName = orderNum + ".temp";
+      string orderFolderPath = Path.Combine(@"C:\APM_TRANSFER\Orders\Outlab\", tempFolderName);
+      createOrderFolder(orderFolderPath);
+
+      copyOrderFiles(pdfLocation, orderFolderPath, pdfName);
+      copyOrderFiles(jpgLocation, orderFolderPath, jpgName);
+      Store store = new Store(storeNum);
+      //start creating the order xml
+      XDocument xDoc = new XDocument(
+        new XDeclaration("1.0", "windows-1252", null),
+        new XElement("apm_order", "",
+          new XAttribute("apm_order_number", orderNum),
+          new XAttribute("fulfillment_id", "pickup"),
+          new XAttribute("items_total", orderTotal),
+          new XAttribute("source", "express"),
+          new XAttribute("status", "ordered"),
+          new XAttribute("timestamp", DateTime.Now),
+          new XAttribute("apm_build", "Touchprints (Rev. 31591)"),
+          new XAttribute("apm_id", apm_id),
+          new XAttribute("apm_xml_version", "2.0"),
+          new XElement("shipment", "",
+            new XAttribute("fulfillment_type", "pickup"),
+            new XAttribute("shipment_id", "1"),
+            new XAttribute("subtotal_items", orderTotal),
+            new XAttribute("fname", firstName),
+            new XAttribute("lname", lastName),
+            new XAttribute("phone", phone),
+            new XAttribute("email", email),
+            new XAttribute("address1", ""),
+            new XAttribute("address2", ""),
+            new XAttribute("city", ""),
+            new XAttribute("country", ""),
+            new XAttribute("state", ""),
+            new XAttribute("zip", ""),
+            new XElement("order_item", "",
+              new XAttribute("additional_units", extraPageCount),
+              new XAttribute("description", productName),
+              new XAttribute("name", productName),
+              new XAttribute("product", productId),
+              new XAttribute("for_fulfillment", "true"),
+              new XAttribute("product_sub_type", "book"),
+              new XAttribute("product_type", "folio"),
+              new XAttribute("quantity", qty),
+              new XAttribute("template_id", productId),
+              new XElement("folio_render_mode", "rendered"),
+              new XElement("attributes", "",
+                new XAttribute("page_count", pageCount)),
+              new XElement("image", "",
+                new XAttribute("black_white", "false"),
+                new XAttribute("borders", "false"),
+                new XAttribute("fit_to_paper", "false"),
+                new XAttribute("path", pdfName),
+                new XAttribute("sepia", "false")
+                )),
+            new XElement("order_item", "",
+              new XAttribute("description", coverName),
+              new XAttribute("for_fulfillment", "true"),
+              new XAttribute("name", coverName),
+              new XAttribute("product", coverId),
+              new XAttribute("template_id", coverId),
+              new XAttribute("product_type", "folio"),
+              new XAttribute("quantity", qty),
+              new XAttribute("product_sub_type", "book"),
+              new XElement("folio_render_mode", "rendered"),
+              new XElement("attributes", "",
+                new XAttribute("page_count", "1"),
+                new XAttribute("upsold_from_product_id", productId)),
+              new XElement("image", "",
+                new XAttribute("black_white", "false"),
+                new XAttribute("borders", "false"),
+                new XAttribute("fit_to_paper", "false"),
+                new XAttribute("path", jpgName),
+                new XAttribute("sepia", "false"))
+              )),
+            new XElement("attributes", "",
+              new XAttribute("finish", "glossy")),
+            new XElement("customer", ""),
+            new XElement("store", "",
+              new XAttribute("contact_email", store.email),
+              new XAttribute("contact_name", store.contactName),
+              new XAttribute("store_address", store.address),
+              new XAttribute("store_city", store.city),
+              new XAttribute("store_country", "US"),
+              new XAttribute("store_id", storeNum),
+              new XAttribute("store_name", store.name),
+              new XAttribute("store_state", store.state),
+              new XAttribute("store_zip", store.zip))
+        ));
+      xDoc.Save(Path.Combine(orderFolderPath, orderNum + ".xml"));
+      string orderFolderReady = orderFolderPath.Replace("temp", "order");
+      Directory.Move(orderFolderPath, orderFolderReady);
     } //end builder
 
-    private static int countPages(string pdfLocation)
+    private void createOrderFolder(string orderFolderPath)
     {
-      PdfReader pdfReader = new PdfReader(pdfLocation);
-      int numberOfPages = pdfReader.NumberOfPages;
-      return numberOfPages;
-    } //end countPages
+      try
+      {
+        if (!Directory.Exists(orderFolderPath))
+        {
+          DirectoryInfo di = Directory.CreateDirectory(orderFolderPath);
+        }
+      }
+      catch(Exception e)
+      {
+        MessageBox.Show("Unable to create order folder.\n" + e.ToString());
+      }
+    } //end createOrderFolder
 
-    private static decimal calculateBasePrice(int pageCount, string productId, int qty)
+    private void copyOrderFiles(string originalFile, string orderFolderPath, string pdfName)
     {
-      decimal price = 0;
+      try
+      {
+        if (Directory.Exists(orderFolderPath))
+        {
+          File.Copy(originalFile, Path.Combine(orderFolderPath, pdfName), true);
+        }
+      }
+      catch (Exception e)
+      {
+        MessageBox.Show("Unable to copy file to order folder.  Make sure the file exists.\n" + e.ToString());
+      }
+    } //end copyOrderFiles
+
+    private Tuple<string,string> getProductName(string productId)
+    {
       string pathProducts = @"C:\Program Files\ITS\OrderBuilder\builderSettings.xml";
+      string productName = string.Empty;
+      string coverId = string.Empty;
       if (File.Exists(pathProducts))
       {
         XDocument xDocProducts = XDocument.Load(pathProducts);
         var qryProducts = from products in xDocProducts.Descendants("product")
-                          where (string)products.Attribute("id") == productId
+                          where (string)products.Attribute("id").Value == productId
                           select products;
+        
         foreach (var item in qryProducts)
         {
-          price = Convert.ToDecimal(item.Element("fulfillment_option").Attribute("base").Value);
-        }
-
-        var qryQtyPrices = from qty_prices in qryProducts.Descendants("qty_pricing")
-                           select qty_prices;
-        foreach(XElement qty_price in qryQtyPrices)
-        {
-          int qtyPriceLevel = Convert.ToInt32(qty_price.Attribute("min").Value);
-          if(qty >= qtyPriceLevel){
-            price = Convert.ToDecimal(qty_price.Attribute("price").Value);
-          }
+          productName = item.Attribute("name").Value;
+          coverId = item.Attribute("cover_id").Value;
         }
       }
-      return price;
-    } //end calculateBasePrice
+      return Tuple.Create(productName, coverId);
+    } //end getProductName
 
-    private Tuple<int, decimal> countAdditionalPages(int pageCount, string productId, int qty)
+    private static string getCoverName(string coverId)
     {
       string pathProducts = @"C:\Program Files\ITS\OrderBuilder\builderSettings.xml";
-      int extraPages = 0;
-      decimal pricePerPage = 0;
+      string coverName = string.Empty;
       if (File.Exists(pathProducts))
       {
         XDocument xDocProducts = XDocument.Load(pathProducts);
-        var qryProducts = from products in xDocProducts.Descendants("product")
-                          where (string)products.Attribute("id") == productId
-                          select products;
-        foreach (var item in qryProducts)
+        var qryCovers = from covers in xDocProducts.Descendants("product")
+                        where (string)covers.Attribute("id").Value == coverId
+                        select covers;
+        foreach (var item in qryCovers)
         {
-          int base_page_num = Convert.ToInt32(item.Element("fulfillment_option").Attribute("base_page_num").Value);
-          extraPages = pageCount - base_page_num;
-          pricePerPage = Convert.ToDecimal(item.Element("fulfillment_option").Attribute("increment_price").Value);
-        }
-
-        var qryPricePerExtraPage = from pricePerExtraPage in qryProducts.Descendants("qty_pricing")
-                                   select pricePerExtraPage;
-        foreach(XElement per_page in qryPricePerExtraPage){
-          int qtyPriceLevel = Convert.ToInt32(per_page.Attribute("min").Value);
-          if(qty >= qtyPriceLevel){
-            pricePerPage = Convert.ToDecimal(per_page.Attribute("increment_price").Value);
-          }
+          coverName = item.Attribute("name").Value;
         }
       }
-      return Tuple.Create(extraPages, pricePerPage);
-    } //end countAdditionalPages
-
-    //private static string createOrderNum(string store)
-   // {
-
-   // }
-  }
+      return coverName;
+    }
+  } //end buildit
 }
