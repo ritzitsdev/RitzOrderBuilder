@@ -31,12 +31,15 @@ namespace RitzOrderBuilder
       var productInfo = getProductName(productId);
       string productName = productInfo.Item1;
       string coverId = productInfo.Item2;
-      string coverName = getCoverName(coverId);
+      string coverName = productInfo.Item3;
+
       string qty = Convert.ToString(form.quantity.Text);
       string orderNum = createOrderNum(storeNum);
       string pageCount = form.pageCount.Text;
       string orderTotalWithDol = form.orderTotal.Text;
       string orderTotal = orderTotalWithDol.Replace("$", "");
+      decimal intLineItemTotal = Convert.ToDecimal(orderTotal) / Convert.ToDecimal(qty);
+      string lineItemTotal = intLineItemTotal.ToString();
       string extraPages = form.extraPages.Text;
       string extraPageCount = extraPages.Split(' ')[0];
 
@@ -62,7 +65,9 @@ namespace RitzOrderBuilder
           new XAttribute("apm_xml_version", "2.0"),
           new XElement("shipment", "",
             new XAttribute("fulfillment_type", "pickup"),
+            new XAttribute("delivery_method", ""),
             new XAttribute("shipment_id", "1"),
+            new XAttribute("subtotal", orderTotal),
             new XAttribute("subtotal_items", orderTotal),
             new XAttribute("fname", firstName),
             new XAttribute("lname", lastName),
@@ -79,6 +84,8 @@ namespace RitzOrderBuilder
               new XAttribute("description", productName),
               new XAttribute("name", productName),
               new XAttribute("product", productId),
+              new XAttribute("price", orderTotal),
+              new XAttribute("line_item_total", lineItemTotal),
               new XAttribute("for_fulfillment", "true"),
               new XAttribute("product_sub_type", "book"),
               new XAttribute("product_type", "folio"),
@@ -99,6 +106,8 @@ namespace RitzOrderBuilder
               new XAttribute("for_fulfillment", "true"),
               new XAttribute("name", coverName),
               new XAttribute("product", coverId),
+              new XAttribute("price", "0.00"),
+              new XAttribute("line_item_total", "0.00"),
               new XAttribute("template_id", coverId),
               new XAttribute("product_type", "folio"),
               new XAttribute("quantity", qty),
@@ -131,6 +140,11 @@ namespace RitzOrderBuilder
       xDoc.Save(Path.Combine(orderFolderPath, orderNum + ".xml"));
       string orderFolderReady = orderFolderPath.Replace("temp", "order");
       Directory.Move(orderFolderPath, orderFolderReady);
+
+      string finishedMessage = "Order has been created and will be sent to the OutLab.\n\n";
+      finishedMessage += "Order Number: " + orderNum;
+      finishedMessage += "\nOrder Total: " + orderTotalWithDol;
+      MessageBox.Show(finishedMessage);
     } //end builder
 
     private void createOrderFolder(string orderFolderPath)
@@ -163,11 +177,12 @@ namespace RitzOrderBuilder
       }
     } //end copyOrderFiles
 
-    private Tuple<string,string> getProductName(string productId)
+    private Tuple<string,string,string> getProductName(string productId)
     {
       string pathProducts = @"C:\Program Files\ITS\OrderBuilder\builderSettings.xml";
       string productName = string.Empty;
       string coverId = string.Empty;
+      string coverName = string.Empty;
       if (File.Exists(pathProducts))
       {
         XDocument xDocProducts = XDocument.Load(pathProducts);
@@ -178,29 +193,12 @@ namespace RitzOrderBuilder
         foreach (var item in qryProducts)
         {
           productName = item.Attribute("name").Value;
-          coverId = item.Attribute("cover_id").Value;
+          coverId = item.Element("cover").Attribute("id").Value;
+          coverName = item.Element("cover").Attribute("name").Value;
         }
       }
-      return Tuple.Create(productName, coverId);
+      return Tuple.Create(productName, coverId, coverName);
     } //end getProductName
-
-    private static string getCoverName(string coverId)
-    {
-      string pathProducts = @"C:\Program Files\ITS\OrderBuilder\builderSettings.xml";
-      string coverName = string.Empty;
-      if (File.Exists(pathProducts))
-      {
-        XDocument xDocProducts = XDocument.Load(pathProducts);
-        var qryCovers = from covers in xDocProducts.Descendants("product")
-                        where (string)covers.Attribute("id").Value == coverId
-                        select covers;
-        foreach (var item in qryCovers)
-        {
-          coverName = item.Attribute("name").Value;
-        }
-      }
-      return coverName;
-    } //end getCoverName
 
     private static string createOrderNum(string storeNum)
     {

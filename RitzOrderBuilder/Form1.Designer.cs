@@ -181,7 +181,7 @@
       this.productList.Location = new System.Drawing.Point(17, 270);
       this.productList.Name = "productList";
       this.productList.Size = new System.Drawing.Size(299, 21);
-      this.productList.TabIndex = 12;
+      this.productList.TabIndex = 15;
       this.productList.Text = "Select Product";
       // 
       // lblSelectBookPDF
@@ -204,7 +204,7 @@
       this.button1.Location = new System.Drawing.Point(322, 179);
       this.button1.Name = "button1";
       this.button1.Size = new System.Drawing.Size(75, 23);
-      this.button1.TabIndex = 14;
+      this.button1.TabIndex = 12;
       this.button1.Text = "Browse";
       this.button1.UseVisualStyleBackColor = true;
       this.button1.Click += new System.EventHandler(this.button1_Click);
@@ -214,7 +214,7 @@
       this.PDFLocation.Location = new System.Drawing.Point(17, 180);
       this.PDFLocation.Name = "PDFLocation";
       this.PDFLocation.Size = new System.Drawing.Size(299, 20);
-      this.PDFLocation.TabIndex = 15;
+      this.PDFLocation.TabIndex = 11;
       // 
       // lblCoverPath
       // 
@@ -231,7 +231,7 @@
       this.jpgLocation.Location = new System.Drawing.Point(17, 224);
       this.jpgLocation.Name = "jpgLocation";
       this.jpgLocation.Size = new System.Drawing.Size(299, 20);
-      this.jpgLocation.TabIndex = 17;
+      this.jpgLocation.TabIndex = 13;
       // 
       // openFileDialog2
       // 
@@ -243,7 +243,7 @@
       this.button2.Location = new System.Drawing.Point(322, 222);
       this.button2.Name = "button2";
       this.button2.Size = new System.Drawing.Size(75, 23);
-      this.button2.TabIndex = 18;
+      this.button2.TabIndex = 14;
       this.button2.Text = "Browse";
       this.button2.UseVisualStyleBackColor = true;
       this.button2.Click += new System.EventHandler(this.button2_Click);
@@ -263,7 +263,7 @@
       this.quantity.Location = new System.Drawing.Point(322, 270);
       this.quantity.Name = "quantity";
       this.quantity.Size = new System.Drawing.Size(75, 20);
-      this.quantity.TabIndex = 20;
+      this.quantity.TabIndex = 16;
       this.quantity.Text = "1";
       // 
       // btnCreateOrder
@@ -271,7 +271,7 @@
       this.btnCreateOrder.Location = new System.Drawing.Point(324, 411);
       this.btnCreateOrder.Name = "btnCreateOrder";
       this.btnCreateOrder.Size = new System.Drawing.Size(75, 23);
-      this.btnCreateOrder.TabIndex = 21;
+      this.btnCreateOrder.TabIndex = 18;
       this.btnCreateOrder.Text = "Create Order";
       this.btnCreateOrder.UseVisualStyleBackColor = true;
       this.btnCreateOrder.Visible = false;
@@ -282,7 +282,7 @@
       this.btnPreview.Location = new System.Drawing.Point(325, 411);
       this.btnPreview.Name = "btnPreview";
       this.btnPreview.Size = new System.Drawing.Size(75, 23);
-      this.btnPreview.TabIndex = 22;
+      this.btnPreview.TabIndex = 17;
       this.btnPreview.Text = "Next";
       this.btnPreview.UseVisualStyleBackColor = true;
       this.btnPreview.Click += new System.EventHandler(this.btnPreview_Click);
@@ -349,8 +349,8 @@
       this.lblInstructions1.Name = "lblInstructions1";
       this.lblInstructions1.Size = new System.Drawing.Size(395, 26);
       this.lblInstructions1.TabIndex = 31;
-      this.lblInstructions1.Text = "Verify Settings and click Create Order.  If you make changes click Update Form to" +
-    " save them.  Order Total does not include taxes.";
+      this.lblInstructions1.Text = "Verify Settings and click Create Order.  If you make changes click Update to save" +
+    " them.  Order Total does not include taxes.";
       this.lblInstructions1.Visible = false;
       // 
       // btnUpdateForm

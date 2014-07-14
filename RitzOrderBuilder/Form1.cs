@@ -26,6 +26,7 @@ namespace RitzOrderBuilder
     private void Form1_Load(object sender, EventArgs e)
     {
       backgroundWorker1.RunWorkerAsync();
+      this.ActiveControl = selStoreNumber;
     }
 
     private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
@@ -113,6 +114,7 @@ namespace RitzOrderBuilder
       {
         buildit build = new buildit();
         build.builder(this);
+        formReset();
       }
       catch(Exception ex) {
         MessageBox.Show("There was an error building the order.\nPlease check all fields and try again.\n" + ex);
@@ -120,8 +122,7 @@ namespace RitzOrderBuilder
       finally
       {
         this.Cursor = Cursors.Default;
-      }
-      formReset();
+      }      
     } //end btnCreateOrder_Click
     
     private void btnPreview_Click(object sender, EventArgs e)
@@ -159,18 +160,18 @@ namespace RitzOrderBuilder
       btnCreateOrder.Visible = false;
       btnPreview.Visible = true;
       btnUpdateForm.Visible = false;
-    }
+    } //end formReset
 
     private void btnClearForm_Click(object sender, EventArgs e)
     {
       formReset();
-    }
+    } //end btnClearForm_Click
 
     private void btnCancel_Click(object sender, EventArgs e)
     {
       formReset();
       Application.Exit();
-    }
+    } //end btnCancel_Click
 
     private void btnUpdateForm_Click(object sender, EventArgs e)
     {
@@ -188,6 +189,6 @@ namespace RitzOrderBuilder
       {
         this.Cursor = Cursors.Default;
       }
-    }
+    } //end btnUpdateForm_Click
   }
 }

@@ -55,6 +55,7 @@ namespace RitzOrderBuilder
     {
       PdfReader pdfReader = new PdfReader(pdfLocation);
       int numberOfPages = pdfReader.NumberOfPages;
+      pdfReader.Close();
       return numberOfPages;
     } //end countPages
 
