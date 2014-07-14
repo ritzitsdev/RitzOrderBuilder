@@ -33,7 +33,7 @@ namespace RitzOrderBuilder
       string coverId = productInfo.Item2;
       string coverName = getCoverName(coverId);
       string qty = Convert.ToString(form.quantity.Text);
-      string orderNum = form.orderNumber.Text;
+      string orderNum = createOrderNum(storeNum);
       string pageCount = form.pageCount.Text;
       string orderTotalWithDol = form.orderTotal.Text;
       string orderTotal = orderTotalWithDol.Replace("$", "");
@@ -200,6 +200,17 @@ namespace RitzOrderBuilder
         }
       }
       return coverName;
-    }
+    } //end getCoverName
+
+    private static string createOrderNum(string storeNum)
+    {
+      int store = Convert.ToInt32(storeNum) + 16000;
+      //DateTime curDateTime = DateTime.Now;
+      //string strDateTime = curDateTime.ToString("MMddHHmmss");
+      Random r = new Random();
+      int rndNum = r.Next(10000, 99999);
+      string orderNum = store.ToString() + rndNum;
+      return orderNum;
+    } //end createOrderNum
   } //end buildit
 }

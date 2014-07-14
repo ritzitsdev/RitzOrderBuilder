@@ -54,11 +54,9 @@
       this.quantity = new System.Windows.Forms.TextBox();
       this.btnCreateOrder = new System.Windows.Forms.Button();
       this.btnPreview = new System.Windows.Forms.Button();
-      this.lblOrderNumber = new System.Windows.Forms.Label();
       this.lblPageCount = new System.Windows.Forms.Label();
       this.lblExtraPages = new System.Windows.Forms.Label();
       this.lblOrderTotal = new System.Windows.Forms.Label();
-      this.orderNumber = new System.Windows.Forms.Label();
       this.pageCount = new System.Windows.Forms.Label();
       this.extraPages = new System.Windows.Forms.Label();
       this.orderTotal = new System.Windows.Forms.Label();
@@ -289,21 +287,11 @@
       this.btnPreview.UseVisualStyleBackColor = true;
       this.btnPreview.Click += new System.EventHandler(this.btnPreview_Click);
       // 
-      // lblOrderNumber
-      // 
-      this.lblOrderNumber.AutoSize = true;
-      this.lblOrderNumber.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.lblOrderNumber.Location = new System.Drawing.Point(26, 305);
-      this.lblOrderNumber.Name = "lblOrderNumber";
-      this.lblOrderNumber.Size = new System.Drawing.Size(89, 13);
-      this.lblOrderNumber.TabIndex = 23;
-      this.lblOrderNumber.Text = "Order Number:";
-      // 
       // lblPageCount
       // 
       this.lblPageCount.AutoSize = true;
       this.lblPageCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.lblPageCount.Location = new System.Drawing.Point(37, 322);
+      this.lblPageCount.Location = new System.Drawing.Point(37, 308);
       this.lblPageCount.Name = "lblPageCount";
       this.lblPageCount.Size = new System.Drawing.Size(77, 13);
       this.lblPageCount.TabIndex = 24;
@@ -313,7 +301,7 @@
       // 
       this.lblExtraPages.AutoSize = true;
       this.lblExtraPages.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.lblExtraPages.Location = new System.Drawing.Point(8, 338);
+      this.lblExtraPages.Location = new System.Drawing.Point(8, 324);
       this.lblExtraPages.Name = "lblExtraPages";
       this.lblExtraPages.Size = new System.Drawing.Size(106, 13);
       this.lblExtraPages.TabIndex = 25;
@@ -323,24 +311,16 @@
       // 
       this.lblOrderTotal.AutoSize = true;
       this.lblOrderTotal.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.lblOrderTotal.Location = new System.Drawing.Point(39, 355);
+      this.lblOrderTotal.Location = new System.Drawing.Point(39, 341);
       this.lblOrderTotal.Name = "lblOrderTotal";
       this.lblOrderTotal.Size = new System.Drawing.Size(75, 13);
       this.lblOrderTotal.TabIndex = 26;
       this.lblOrderTotal.Text = "Order Total:";
       // 
-      // orderNumber
-      // 
-      this.orderNumber.AutoSize = true;
-      this.orderNumber.Location = new System.Drawing.Point(111, 305);
-      this.orderNumber.Name = "orderNumber";
-      this.orderNumber.Size = new System.Drawing.Size(0, 13);
-      this.orderNumber.TabIndex = 27;
-      // 
       // pageCount
       // 
       this.pageCount.AutoSize = true;
-      this.pageCount.Location = new System.Drawing.Point(113, 322);
+      this.pageCount.Location = new System.Drawing.Point(113, 308);
       this.pageCount.Name = "pageCount";
       this.pageCount.Size = new System.Drawing.Size(0, 13);
       this.pageCount.TabIndex = 28;
@@ -348,7 +328,7 @@
       // extraPages
       // 
       this.extraPages.AutoSize = true;
-      this.extraPages.Location = new System.Drawing.Point(112, 338);
+      this.extraPages.Location = new System.Drawing.Point(112, 324);
       this.extraPages.Name = "extraPages";
       this.extraPages.Size = new System.Drawing.Size(0, 13);
       this.extraPages.TabIndex = 29;
@@ -356,7 +336,7 @@
       // orderTotal
       // 
       this.orderTotal.AutoSize = true;
-      this.orderTotal.Location = new System.Drawing.Point(114, 355);
+      this.orderTotal.Location = new System.Drawing.Point(114, 341);
       this.orderTotal.Name = "orderTotal";
       this.orderTotal.Size = new System.Drawing.Size(0, 13);
       this.orderTotal.TabIndex = 30;
@@ -364,7 +344,7 @@
       // lblInstructions1
       // 
       this.lblInstructions1.AutoSize = true;
-      this.lblInstructions1.Location = new System.Drawing.Point(10, 377);
+      this.lblInstructions1.Location = new System.Drawing.Point(10, 363);
       this.lblInstructions1.MaximumSize = new System.Drawing.Size(400, 0);
       this.lblInstructions1.Name = "lblInstructions1";
       this.lblInstructions1.Size = new System.Drawing.Size(395, 26);
@@ -382,6 +362,7 @@
       this.btnUpdateForm.Text = "Update";
       this.btnUpdateForm.UseVisualStyleBackColor = true;
       this.btnUpdateForm.Visible = false;
+      this.btnUpdateForm.Click += new System.EventHandler(this.btnUpdateForm_Click);
       // 
       // btnClearForm
       // 
@@ -415,11 +396,9 @@
       this.Controls.Add(this.orderTotal);
       this.Controls.Add(this.extraPages);
       this.Controls.Add(this.pageCount);
-      this.Controls.Add(this.orderNumber);
       this.Controls.Add(this.lblOrderTotal);
       this.Controls.Add(this.lblExtraPages);
       this.Controls.Add(this.lblPageCount);
-      this.Controls.Add(this.lblOrderNumber);
       this.Controls.Add(this.btnPreview);
       this.Controls.Add(this.btnCreateOrder);
       this.Controls.Add(this.quantity);
@@ -478,13 +457,11 @@
     public System.Windows.Forms.TextBox jpgLocation;
     public System.Windows.Forms.ComboBox productList;
     public System.Windows.Forms.TextBox quantity;
-    public System.Windows.Forms.Label lblOrderNumber;
     public System.Windows.Forms.Label lblPageCount;
     public System.Windows.Forms.Label lblExtraPages;
     public System.Windows.Forms.Label lblOrderTotal;
     public System.Windows.Forms.Button btnPreview;
     public System.Windows.Forms.Button btnCreateOrder;
-    public System.Windows.Forms.Label orderNumber;
     public System.Windows.Forms.Label pageCount;
     public System.Windows.Forms.Label extraPages;
     public System.Windows.Forms.Label orderTotal;

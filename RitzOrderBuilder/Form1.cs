@@ -151,7 +151,7 @@ namespace RitzOrderBuilder
       PDFLocation.Text = string.Empty;
       jpgLocation.Text = string.Empty;
       quantity.Text = "1";
-      orderNumber.Text = string.Empty;
+      //orderNumber.Text = string.Empty;
       pageCount.Text = string.Empty;
       extraPages.Text = string.Empty;
       orderTotal.Text = string.Empty;
@@ -170,6 +170,24 @@ namespace RitzOrderBuilder
     {
       formReset();
       Application.Exit();
+    }
+
+    private void btnUpdateForm_Click(object sender, EventArgs e)
+    {
+      this.Cursor = Cursors.WaitCursor;
+      try
+      {
+        Preview preview = new Preview();
+        preview.buildPreview(this);
+      }
+      catch (Exception ex)
+      {
+        MessageBox.Show("There was an error building the order.\nPlease check all fields and try again.");
+      }
+      finally
+      {
+        this.Cursor = Cursors.Default;
+      }
     }
   }
 }

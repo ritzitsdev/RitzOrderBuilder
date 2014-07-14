@@ -36,11 +36,11 @@ namespace RitzOrderBuilder
       decimal pricePerExtraPage = additionalPageCount.Item2;
 
       decimal totalPriceExtraPages = extraPageCount * pricePerExtraPage;
-      decimal orderTotal = basePrice + totalPriceExtraPages;
+      decimal orderTotal = (basePrice + totalPriceExtraPages) * qty;
 
-      string orderNum = createOrderNum(storeNum);
+      //string orderNum = createOrderNum(storeNum);
 
-      form.orderNumber.Text = orderNum;
+      //form.orderNumber.Text = orderNum;
       form.pageCount.Text = pageCount.ToString();
       form.extraPages.Text = extraPageCount + " pages @ $" + pricePerExtraPage + " per page.";
       form.orderTotal.Text = "$" + orderTotal.ToString();
@@ -115,16 +115,5 @@ namespace RitzOrderBuilder
       }
       return Tuple.Create(extraPages, pricePerPage);
     } //end countAdditionalPages
-
-    private static string createOrderNum(string storeNum)
-    {
-      int store = Convert.ToInt32(storeNum) + 16000;
-      //DateTime curDateTime = DateTime.Now;
-      //string strDateTime = curDateTime.ToString("MMddHHmmss");
-      Random r = new Random();
-      int rndNum = r.Next(10000, 99999);
-      string orderNum = store.ToString() + rndNum;
-      return orderNum;
-    } //end createOrderNum
   } //end preview
 }
