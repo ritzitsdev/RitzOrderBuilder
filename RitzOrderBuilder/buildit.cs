@@ -25,6 +25,9 @@ namespace RitzOrderBuilder
       string email = form.custEmail.Text;
       string pdfLocation = form.PDFLocation.Text;
       string pdfName = pdfLocation.Split('\\').Last();
+      //need to fix pdf name for order imposition script. The script uses _001 to set the job
+      // index. Since there will only be 1 pdf per order for now, hard coding it will work.
+      pdfName = pdfName.Replace(".pdf", "_001.pdf");
       string jpgLocation = form.jpgLocation.Text;
       string jpgName = jpgLocation.Split('\\').Last();
       string productId = Convert.ToString(form.productList.SelectedValue);
