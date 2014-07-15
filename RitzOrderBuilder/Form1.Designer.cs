@@ -64,6 +64,7 @@
       this.btnUpdateForm = new System.Windows.Forms.Button();
       this.btnClearForm = new System.Windows.Forms.Button();
       this.btnCancel = new System.Windows.Forms.Button();
+      this.chkPrint = new System.Windows.Forms.CheckBox();
       this.SuspendLayout();
       // 
       // backgroundWorker1
@@ -384,11 +385,24 @@
       this.btnCancel.UseVisualStyleBackColor = true;
       this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
       // 
+      // chkPrint
+      // 
+      this.chkPrint.AutoSize = true;
+      this.chkPrint.Checked = true;
+      this.chkPrint.CheckState = System.Windows.Forms.CheckState.Checked;
+      this.chkPrint.Location = new System.Drawing.Point(182, 31);
+      this.chkPrint.Name = "chkPrint";
+      this.chkPrint.Size = new System.Drawing.Size(157, 17);
+      this.chkPrint.TabIndex = 35;
+      this.chkPrint.Text = "Print an invoice of this order";
+      this.chkPrint.UseVisualStyleBackColor = true;
+      // 
       // Form1
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(417, 444);
+      this.Controls.Add(this.chkPrint);
       this.Controls.Add(this.btnCancel);
       this.Controls.Add(this.btnClearForm);
       this.Controls.Add(this.btnUpdateForm);
@@ -469,6 +483,7 @@
     public System.Windows.Forms.Button btnUpdateForm;
     private System.Windows.Forms.Button btnClearForm;
     private System.Windows.Forms.Button btnCancel;
+    public System.Windows.Forms.CheckBox chkPrint;
   }
 }
 

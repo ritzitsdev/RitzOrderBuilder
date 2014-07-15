@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using iTextSharp.text.pdf;
 using iTextSharp.text.xml;
+using System.Drawing;
+using System.Drawing.Printing;
 
 namespace RitzOrderBuilder
 {
@@ -24,10 +26,10 @@ namespace RitzOrderBuilder
       string phone = form.custPhone.Text;
       string email = form.custEmail.Text;
       string pdfLocation = form.PDFLocation.Text;
-      string pdfName = pdfLocation.Split('\\').Last();
+      string originalPdfName = pdfLocation.Split('\\').Last();
       //need to fix pdf name for order imposition script. The script uses _001 to set the job
       // index. Since there will only be 1 pdf per order for now, hard coding it will work.
-      pdfName = pdfName.Replace(".pdf", "_001.pdf");
+      string pdfName = originalPdfName.Replace(".pdf", "_001.pdf");
       string jpgLocation = form.jpgLocation.Text;
       string jpgName = jpgLocation.Split('\\').Last();
       string productId = Convert.ToString(form.productList.SelectedValue);
@@ -148,6 +150,42 @@ namespace RitzOrderBuilder
       finishedMessage += "Order Number: " + orderNum;
       finishedMessage += "\nOrder Total: " + orderTotalWithDol;
       MessageBox.Show(finishedMessage);
+
+      //print invoice to default printer
+      if (form.chkPrint.Checked == true)
+      {
+        string printData = string.Empty;
+        printData += "Store: " + storeNum;
+        printData += "\n\nOrder Number: " + orderNum;
+        printData += "\nOrder Total: " + orderTotalWithDol;
+        printData += "\n\nProduct: " + productName;
+        printData += "\nQuantity: " + qty;
+        printData += "\nPDF Name: " + originalPdfName;
+        printData += "\nJPG Name: " + jpgName;
+        printData += "\nPage Count: " + pageCount;
+        printData += "\nAdditional Pages: " + extraPages;
+        printData += "\n\nCustomer Information";
+        printData += "\nFirst Name: " + firstName;
+        printData += "\nLast Name: " + lastName;
+        printData += "\nPhone: " + phone;
+        printData += "\nEmail: " + email;
+
+        PrintDocument printDoc = new PrintDocument();
+        printDoc.PrintPage += delegate(object sender1, PrintPageEventArgs e1)
+        {
+          e1.Graphics.DrawString(printData, new Font("Times New Roman", 14),
+            new SolidBrush(Color.Black),
+            new RectangleF(30.6F, 30.7F, printDoc.DefaultPageSettings.PrintableArea.Width, printDoc.DefaultPageSettings.PrintableArea.Height));
+        };
+        try
+        {
+          printDoc.Print();
+        }
+        catch (Exception ex)
+        {
+          MessageBox.Show("Unable to print invoice.\n" + ex.ToString());
+        }
+      }
     } //end builder
 
     private void createOrderFolder(string orderFolderPath)
