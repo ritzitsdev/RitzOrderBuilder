@@ -11,6 +11,7 @@ using iTextSharp.text.pdf;
 using iTextSharp.text.xml;
 using System.Drawing;
 using System.Drawing.Printing;
+using Microsoft.Win32;
 
 namespace RitzOrderBuilder
 {
@@ -247,8 +248,23 @@ namespace RitzOrderBuilder
       //DateTime curDateTime = DateTime.Now;
       //string strDateTime = curDateTime.ToString("MMddHHmmss");
       Random r = new Random();
-      int rndNum = r.Next(10000, 99999);
-      string orderNum = store.ToString() + rndNum;
+      int rndNum = r.Next(10000, 30000);
+      //string orderNum = store.ToString() + rndNum;
+      int orderID = 00000;
+
+      RegistryKey orderKey = Registry.CurrentUser.CreateSubKey("Software\\ITS\\OrderBuilder");
+      string lastNum = (string) orderKey.GetValue("orderID");
+      if (lastNum == null)
+      {
+        orderKey.SetValue("orderID", rndNum, RegistryValueKind.String);
+        orderID = rndNum;
+      }
+      else
+      {
+        orderID = Convert.ToInt32(lastNum) + 1;
+        orderKey.SetValue("orderID", orderID, RegistryValueKind.String);
+      }
+      string orderNum = store.ToString() + orderID.ToString();
       return orderNum;
     } //end createOrderNum
   } //end buildit
