@@ -34,7 +34,7 @@ namespace RitzOrderBuilder
       //Get the latest version of ritzsetup.xml (for store locations) and builderSettings.xml
       string remoteStoreInfoXml = "http://ritzpix.com/media/files/ritzsetup.xml";
       string localStoreInfoXml = @"C:\Program Files\ITS\OrderBuilder\ritzsetup.xml";
-      string remoteBuilderSettings = "http://ritzpix.com/media/files/builderSettings.xml";
+      string remoteBuilderSettings = "http://ritzpix.com/media/files/OrderBuilder/builderSettings.xml";
       string localBuilderSettings = @"C:\Program Files\ITS\OrderBuilder\builderSettings.xml";
 
       WebClient client = new WebClient();

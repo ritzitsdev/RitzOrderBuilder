@@ -192,7 +192,7 @@
       // openFileDialog1
       // 
       this.openFileDialog1.Filter = "PDF Files (*.pdf)|*.pdf";
-      this.openFileDialog1.InitialDirectory = "%SytemDrive%\\%USERPROFILE%\\desktop";
+      this.openFileDialog1.InitialDirectory = "%USERPROFILE%\\desktop";
       // 
       // button1
       // 
@@ -411,7 +411,7 @@
       this.custPhone.Mask = "(999) 000-0000";
       this.custPhone.Name = "custPhone";
       this.custPhone.Size = new System.Drawing.Size(91, 20);
-      this.custPhone.TabIndex = 37;
+      this.custPhone.TabIndex = 6;
       // 
       // Form1
       // 
