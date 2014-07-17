@@ -29,6 +29,25 @@ namespace RitzOrderBuilder
         return;
       }
 
+      string jpgLocation = form.jpgLocation.Text;
+      if (!File.Exists(jpgLocation))
+      {
+        MessageBox.Show("JPG file not found.");
+        return;
+      }
+
+      if (form.custFirstName.Text.Equals(String.Empty) && form.custLastName.Text.Equals(String.Empty))
+      {
+        MessageBox.Show("Please enter customer name.");
+        return;
+      }
+
+      if (!form.custPhone.MaskCompleted && form.custEmail.Text.Equals(String.Empty))
+      {
+        MessageBox.Show("Please enter customer phone and/or email.");
+        return;
+      }
+
       decimal basePrice = calculateBasePrice(pageCount, productId, qty);
 
       var additionalPageCount = countAdditionalPages(pageCount, productId, qty);

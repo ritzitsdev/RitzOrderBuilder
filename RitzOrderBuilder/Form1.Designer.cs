@@ -36,7 +36,6 @@
       this.lblFirstName = new System.Windows.Forms.Label();
       this.custLastName = new System.Windows.Forms.TextBox();
       this.lblLastName = new System.Windows.Forms.Label();
-      this.custPhone = new System.Windows.Forms.TextBox();
       this.lblPhone = new System.Windows.Forms.Label();
       this.custEmail = new System.Windows.Forms.TextBox();
       this.lblEmail = new System.Windows.Forms.Label();
@@ -65,6 +64,8 @@
       this.btnClearForm = new System.Windows.Forms.Button();
       this.btnCancel = new System.Windows.Forms.Button();
       this.chkPrint = new System.Windows.Forms.CheckBox();
+      this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+      this.custPhone = new System.Windows.Forms.MaskedTextBox();
       this.SuspendLayout();
       // 
       // backgroundWorker1
@@ -133,13 +134,6 @@
       this.lblLastName.Size = new System.Drawing.Size(58, 13);
       this.lblLastName.TabIndex = 6;
       this.lblLastName.Text = "Last Name";
-      // 
-      // custPhone
-      // 
-      this.custPhone.Location = new System.Drawing.Point(243, 92);
-      this.custPhone.Name = "custPhone";
-      this.custPhone.Size = new System.Drawing.Size(91, 20);
-      this.custPhone.TabIndex = 7;
       // 
       // lblPhone
       // 
@@ -390,18 +384,42 @@
       this.chkPrint.AutoSize = true;
       this.chkPrint.Checked = true;
       this.chkPrint.CheckState = System.Windows.Forms.CheckState.Checked;
-      this.chkPrint.Location = new System.Drawing.Point(182, 31);
+      this.chkPrint.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.chkPrint.Location = new System.Drawing.Point(243, 391);
       this.chkPrint.Name = "chkPrint";
+      this.chkPrint.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
       this.chkPrint.Size = new System.Drawing.Size(157, 17);
       this.chkPrint.TabIndex = 35;
       this.chkPrint.Text = "Print an invoice of this order";
       this.chkPrint.UseVisualStyleBackColor = true;
+      // 
+      // linkLabel1
+      // 
+      this.linkLabel1.AutoSize = true;
+      this.linkLabel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.linkLabel1.Location = new System.Drawing.Point(322, 10);
+      this.linkLabel1.Name = "linkLabel1";
+      this.linkLabel1.Size = new System.Drawing.Size(68, 13);
+      this.linkLabel1.TabIndex = 36;
+      this.linkLabel1.TabStop = true;
+      this.linkLabel1.Text = "Order History";
+      this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
+      // 
+      // custPhone
+      // 
+      this.custPhone.Location = new System.Drawing.Point(243, 92);
+      this.custPhone.Mask = "(999) 000-0000";
+      this.custPhone.Name = "custPhone";
+      this.custPhone.Size = new System.Drawing.Size(91, 20);
+      this.custPhone.TabIndex = 37;
       // 
       // Form1
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(417, 444);
+      this.Controls.Add(this.custPhone);
+      this.Controls.Add(this.linkLabel1);
       this.Controls.Add(this.chkPrint);
       this.Controls.Add(this.btnCancel);
       this.Controls.Add(this.btnClearForm);
@@ -428,7 +446,6 @@
       this.Controls.Add(this.lblEmail);
       this.Controls.Add(this.custEmail);
       this.Controls.Add(this.lblPhone);
-      this.Controls.Add(this.custPhone);
       this.Controls.Add(this.lblLastName);
       this.Controls.Add(this.custLastName);
       this.Controls.Add(this.lblFirstName);
@@ -465,7 +482,6 @@
     public System.Windows.Forms.ComboBox selStoreNumber;
     public System.Windows.Forms.TextBox custFirstName;
     public System.Windows.Forms.TextBox custLastName;
-    public System.Windows.Forms.TextBox custPhone;
     public System.Windows.Forms.TextBox custEmail;
     public System.Windows.Forms.TextBox PDFLocation;
     public System.Windows.Forms.TextBox jpgLocation;
@@ -484,6 +500,8 @@
     private System.Windows.Forms.Button btnClearForm;
     private System.Windows.Forms.Button btnCancel;
     public System.Windows.Forms.CheckBox chkPrint;
+    private System.Windows.Forms.LinkLabel linkLabel1;
+    public System.Windows.Forms.MaskedTextBox custPhone;
   }
 }
 

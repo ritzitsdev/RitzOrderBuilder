@@ -189,6 +189,12 @@ namespace RitzOrderBuilder
       {
         this.Cursor = Cursors.Default;
       }
+    }
+
+    private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+    {
+      OrderHistory form = new OrderHistory();
+      form.Show();
     } //end btnUpdateForm_Click
   }
 }

@@ -153,9 +153,9 @@ namespace RitzOrderBuilder
       MessageBox.Show(finishedMessage);
 
       //print invoice to default printer
+      string printData = string.Empty;
       if (form.chkPrint.Checked == true)
       {
-        string printData = string.Empty;
         printData += "Store: " + storeNum;
         printData += "\n\nOrder Number: " + orderNum;
         printData += "\nOrder Total: " + orderTotalWithDol;
@@ -166,8 +166,7 @@ namespace RitzOrderBuilder
         printData += "\nPage Count: " + pageCount;
         printData += "\nAdditional Pages: " + extraPages;
         printData += "\n\nCustomer Information";
-        printData += "\nFirst Name: " + firstName;
-        printData += "\nLast Name: " + lastName;
+        printData += "\nName: " + firstName + " " + lastName;
         printData += "\nPhone: " + phone;
         printData += "\nEmail: " + email;
 
@@ -187,7 +186,58 @@ namespace RitzOrderBuilder
           MessageBox.Show("Unable to print invoice.\n" + ex.ToString());
         }
       }
+
+      //log the order
+      string logPath = @"C:\Program Files\ITS\OrderBuilder\OrderLog.xml";
+      DateTime logTime = DateTime.Now;
+      string datePatt = @"M/d/yyyy hh:mm:ss tt";
+      string strLogTime = logTime.ToString(datePatt);
+      if (!File.Exists(logPath))
+      {
+        XDocument xLogDoc = new XDocument(
+        new XDeclaration("1.0", "windows-1252", null),
+        new XElement("orders", ""));
+        xLogDoc.Save(logPath);
+      }
+      clearOldLogs();
+      XElement xLogOrder = XElement.Load(logPath);
+      xLogOrder.Add(new XElement("order",
+        new XAttribute("order_number", orderNum),
+        new XAttribute("timestamp", strLogTime),
+          new XElement("order_total", orderTotal),
+          new XElement("product", productName),
+          new XElement("quantity", qty),
+          new XElement("pdf_name", originalPdfName),
+          new XElement("jpg_name", jpgName),
+          new XElement("page_count", pageCount),
+          new XElement("extra_pages", extraPageCount),
+          new XElement("customer_info", 
+            new XElement("first_name", firstName),
+            new XElement("last_name", lastName),
+            new XElement("phone", phone),
+            new XElement("email", email))));
+      xLogOrder.Save(logPath);
     } //end builder
+
+    private void clearOldLogs()
+    {
+      string logPath = @"C:\Program Files\ITS\OrderBuilder\OrderLog.xml";
+
+      DateTime oldestOrder = DateTime.Today.AddDays(-30);
+
+      XElement xOrders = XElement.Load(logPath);
+      //IEnumerable<XElement> orders = xOrders.Elements();
+      var orders = xOrders.Elements("order").ToList();
+      foreach (XElement order in orders)
+      {
+        DateTime orderDate = Convert.ToDateTime(order.Attribute("timestamp").Value);
+        if (DateTime.Compare(orderDate, oldestOrder) < 0)
+        {
+          order.Remove();
+        }
+      }
+      xOrders.Save(logPath);
+    } //end clearOldLogs
 
     private void createOrderFolder(string orderFolderPath)
     {
