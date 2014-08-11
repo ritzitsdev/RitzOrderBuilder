@@ -30,10 +30,13 @@ namespace RitzOrderBuilder
       }
 
       string jpgLocation = form.jpgLocation.Text;
-      if (!File.Exists(jpgLocation))
+      if (!String.IsNullOrEmpty(jpgLocation))
       {
-        MessageBox.Show("JPG file not found.");
-        return;
+        if (!File.Exists(jpgLocation))
+        {
+          MessageBox.Show("JPG file not found.");
+          return;
+        }
       }
 
       if (form.custFirstName.Text.Equals(String.Empty) && form.custLastName.Text.Equals(String.Empty))

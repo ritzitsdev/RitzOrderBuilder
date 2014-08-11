@@ -54,12 +54,15 @@ namespace RitzOrderBuilder
       createOrderFolder(orderFolderPath);
 
       copyOrderFiles(pdfLocation, orderFolderPath, pdfName);
-      copyOrderFiles(jpgLocation, orderFolderPath, jpgName);
+      if (!String.IsNullOrEmpty(jpgLocation))
+      {
+        copyOrderFiles(jpgLocation, orderFolderPath, jpgName);
+      }
       Store store = new Store(storeNum);
       //start creating the order xml
       XDocument xDoc = new XDocument(
         new XDeclaration("1.0", "windows-1252", null),
-        new XElement("apm_order", "",
+        new XElement("apm_order",
           new XAttribute("apm_order_number", orderNum),
           new XAttribute("fulfillment_id", "pickup"),
           new XAttribute("items_total", orderTotal),
@@ -98,41 +101,44 @@ namespace RitzOrderBuilder
               new XAttribute("quantity", qty),
               new XAttribute("template_id", productId),
               new XElement("folio_render_mode", "rendered"),
-              new XElement("attributes", "",
+              new XElement("attributes",
                 new XAttribute("page_count", pageCount)),
-              new XElement("image", "",
+              new XElement("image",
                 new XAttribute("black_white", "false"),
                 new XAttribute("borders", "false"),
                 new XAttribute("fit_to_paper", "false"),
                 new XAttribute("path", pdfName),
                 new XAttribute("sepia", "false")
-                )),
-            new XElement("order_item", "",
-              new XAttribute("description", coverName),
-              new XAttribute("for_fulfillment", "true"),
-              new XAttribute("name", coverName),
-              new XAttribute("product", coverId),
-              new XAttribute("price", "0.00"),
-              new XAttribute("line_item_total", "0.00"),
-              new XAttribute("template_id", coverId),
-              new XAttribute("product_type", "folio"),
-              new XAttribute("quantity", qty),
-              new XAttribute("product_sub_type", "book"),
-              new XElement("folio_render_mode", "rendered"),
-              new XElement("attributes", "",
-                new XAttribute("page_count", "1"),
-                new XAttribute("upsold_from_product_id", productId)),
-              new XElement("image", "",
-                new XAttribute("black_white", "false"),
-                new XAttribute("borders", "false"),
-                new XAttribute("fit_to_paper", "false"),
-                new XAttribute("path", jpgName),
-                new XAttribute("sepia", "false"))
-              )),
-            new XElement("attributes", "",
+                )))));
+      if (!String.IsNullOrEmpty(jpgLocation))
+      {
+        xDoc.Element("apm_order").Element("shipment").Add(new XElement("order_item",
+          new XAttribute("description", coverName),
+          new XAttribute("for_fulfillment", "true"),
+          new XAttribute("name", coverName),
+          new XAttribute("product", coverId),
+          new XAttribute("price", "0.00"),
+          new XAttribute("line_item_total", "0.00"),
+          new XAttribute("template_id", coverId),
+          new XAttribute("product_type", "folio"),
+          new XAttribute("quantity", qty),
+          new XAttribute("product_sub_type", "book"),
+          new XElement("folio_render_mode", "rendered"),
+          new XElement("attributes",
+            new XAttribute("page_count", "1"),
+            new XAttribute("upsold_from_product_id", productId)),
+          new XElement("image",
+            new XAttribute("black_white", "false"),
+            new XAttribute("borders", "false"),
+            new XAttribute("fit_to_paper", "false"),
+            new XAttribute("path", jpgName),
+            new XAttribute("sepia", "false"))
+          ));
+      }
+   xDoc.Element("apm_order").Add(new XElement("attributes",
               new XAttribute("finish", "glossy")),
-            new XElement("customer", ""),
-            new XElement("store", "",
+            new XElement("customer"),
+            new XElement("store",
               new XAttribute("contact_email", store.email),
               new XAttribute("contact_name", store.contactName),
               new XAttribute("store_address", store.address),
@@ -142,7 +148,9 @@ namespace RitzOrderBuilder
               new XAttribute("store_name", store.name),
               new XAttribute("store_state", store.state),
               new XAttribute("store_zip", store.zip))
-        ));
+        );
+
+
       xDoc.Save(Path.Combine(orderFolderPath, orderNum + ".xml"));
       string orderFolderReady = orderFolderPath.Replace("temp", "order");
       Directory.Move(orderFolderPath, orderFolderReady);
