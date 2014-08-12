@@ -28,9 +28,15 @@
     /// </summary>
     private void InitializeComponent()
     {
+      this.pnlStoreInfo = new System.Windows.Forms.Panel();
+      this.lblStoreContact = new System.Windows.Forms.Label();
+      this.lblStoreContactEmail = new System.Windows.Forms.Label();
+      this.lblStorePhone = new System.Windows.Forms.Label();
+      this.lblStoreCityStateZip = new System.Windows.Forms.Label();
+      this.lblStoreAddress = new System.Windows.Forms.Label();
+      this.lblStoreNum = new System.Windows.Forms.Label();
+      this.lblStoreName = new System.Windows.Forms.Label();
       this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-      this.lblDownloading = new System.Windows.Forms.Label();
-      this.selStoreNumber = new System.Windows.Forms.ComboBox();
       this.lblCustInfo = new System.Windows.Forms.Label();
       this.custFirstName = new System.Windows.Forms.TextBox();
       this.lblFirstName = new System.Windows.Forms.Label();
@@ -66,38 +72,100 @@
       this.chkPrint = new System.Windows.Forms.CheckBox();
       this.linkLabel1 = new System.Windows.Forms.LinkLabel();
       this.custPhone = new System.Windows.Forms.MaskedTextBox();
+      this.lklblConfStore = new System.Windows.Forms.LinkLabel();
+      this.lnklblChangeStore = new System.Windows.Forms.LinkLabel();
+      this.pnlStoreInfo.SuspendLayout();
       this.SuspendLayout();
+      // 
+      // pnlStoreInfo
+      // 
+      this.pnlStoreInfo.Controls.Add(this.lblStoreContact);
+      this.pnlStoreInfo.Controls.Add(this.lblStoreContactEmail);
+      this.pnlStoreInfo.Controls.Add(this.lblStorePhone);
+      this.pnlStoreInfo.Controls.Add(this.lblStoreCityStateZip);
+      this.pnlStoreInfo.Controls.Add(this.lblStoreAddress);
+      this.pnlStoreInfo.Controls.Add(this.lblStoreNum);
+      this.pnlStoreInfo.Controls.Add(this.lblStoreName);
+      this.pnlStoreInfo.Location = new System.Drawing.Point(9, 26);
+      this.pnlStoreInfo.Name = "pnlStoreInfo";
+      this.pnlStoreInfo.Size = new System.Drawing.Size(392, 114);
+      this.pnlStoreInfo.TabIndex = 38;
+      this.pnlStoreInfo.Visible = false;
+      // 
+      // lblStoreContact
+      // 
+      this.lblStoreContact.AutoSize = true;
+      this.lblStoreContact.Location = new System.Drawing.Point(3, 97);
+      this.lblStoreContact.Name = "lblStoreContact";
+      this.lblStoreContact.Size = new System.Drawing.Size(72, 13);
+      this.lblStoreContact.TabIndex = 6;
+      this.lblStoreContact.Text = "Store Contact";
+      // 
+      // lblStoreContactEmail
+      // 
+      this.lblStoreContactEmail.AutoSize = true;
+      this.lblStoreContactEmail.Location = new System.Drawing.Point(3, 81);
+      this.lblStoreContactEmail.Name = "lblStoreContactEmail";
+      this.lblStoreContactEmail.Size = new System.Drawing.Size(100, 13);
+      this.lblStoreContactEmail.TabIndex = 5;
+      this.lblStoreContactEmail.Text = "Store Contact Email";
+      // 
+      // lblStorePhone
+      // 
+      this.lblStorePhone.AutoSize = true;
+      this.lblStorePhone.Location = new System.Drawing.Point(3, 65);
+      this.lblStorePhone.Name = "lblStorePhone";
+      this.lblStorePhone.Size = new System.Drawing.Size(66, 13);
+      this.lblStorePhone.TabIndex = 4;
+      this.lblStorePhone.Text = "Store Phone";
+      // 
+      // lblStoreCityStateZip
+      // 
+      this.lblStoreCityStateZip.AutoSize = true;
+      this.lblStoreCityStateZip.Location = new System.Drawing.Point(3, 49);
+      this.lblStoreCityStateZip.Name = "lblStoreCityStateZip";
+      this.lblStoreCityStateZip.Size = new System.Drawing.Size(104, 13);
+      this.lblStoreCityStateZip.TabIndex = 3;
+      this.lblStoreCityStateZip.Text = "Store City, State, Zip";
+      this.lblStoreCityStateZip.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+      // 
+      // lblStoreAddress
+      // 
+      this.lblStoreAddress.AutoSize = true;
+      this.lblStoreAddress.Location = new System.Drawing.Point(3, 34);
+      this.lblStoreAddress.Name = "lblStoreAddress";
+      this.lblStoreAddress.Size = new System.Drawing.Size(73, 13);
+      this.lblStoreAddress.TabIndex = 2;
+      this.lblStoreAddress.Text = "Store Address";
+      // 
+      // lblStoreNum
+      // 
+      this.lblStoreNum.AutoSize = true;
+      this.lblStoreNum.Location = new System.Drawing.Point(3, 19);
+      this.lblStoreNum.Name = "lblStoreNum";
+      this.lblStoreNum.Size = new System.Drawing.Size(72, 13);
+      this.lblStoreNum.TabIndex = 1;
+      this.lblStoreNum.Text = "Store Number";
+      // 
+      // lblStoreName
+      // 
+      this.lblStoreName.AutoSize = true;
+      this.lblStoreName.Location = new System.Drawing.Point(3, 4);
+      this.lblStoreName.Name = "lblStoreName";
+      this.lblStoreName.Size = new System.Drawing.Size(63, 13);
+      this.lblStoreName.TabIndex = 0;
+      this.lblStoreName.Text = "Store Name";
       // 
       // backgroundWorker1
       // 
       this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
       this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
       // 
-      // lblDownloading
-      // 
-      this.lblDownloading.AutoSize = true;
-      this.lblDownloading.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.lblDownloading.Location = new System.Drawing.Point(2, 10);
-      this.lblDownloading.Name = "lblDownloading";
-      this.lblDownloading.Size = new System.Drawing.Size(119, 13);
-      this.lblDownloading.TabIndex = 0;
-      this.lblDownloading.Text = "Updating. Please wait...";
-      // 
-      // selStoreNumber
-      // 
-      this.selStoreNumber.Enabled = false;
-      this.selStoreNumber.FormattingEnabled = true;
-      this.selStoreNumber.Location = new System.Drawing.Point(16, 28);
-      this.selStoreNumber.Name = "selStoreNumber";
-      this.selStoreNumber.Size = new System.Drawing.Size(101, 21);
-      this.selStoreNumber.TabIndex = 1;
-      this.selStoreNumber.Text = "Select Store";
-      // 
       // lblCustInfo
       // 
       this.lblCustInfo.AutoSize = true;
       this.lblCustInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.lblCustInfo.Location = new System.Drawing.Point(5, 58);
+      this.lblCustInfo.Location = new System.Drawing.Point(8, 152);
       this.lblCustInfo.Name = "lblCustInfo";
       this.lblCustInfo.Size = new System.Drawing.Size(126, 13);
       this.lblCustInfo.TabIndex = 2;
@@ -105,7 +173,7 @@
       // 
       // custFirstName
       // 
-      this.custFirstName.Location = new System.Drawing.Point(17, 92);
+      this.custFirstName.Location = new System.Drawing.Point(17, 184);
       this.custFirstName.Name = "custFirstName";
       this.custFirstName.Size = new System.Drawing.Size(97, 20);
       this.custFirstName.TabIndex = 3;
@@ -113,7 +181,7 @@
       // lblFirstName
       // 
       this.lblFirstName.AutoSize = true;
-      this.lblFirstName.Location = new System.Drawing.Point(18, 77);
+      this.lblFirstName.Location = new System.Drawing.Point(18, 169);
       this.lblFirstName.Name = "lblFirstName";
       this.lblFirstName.Size = new System.Drawing.Size(57, 13);
       this.lblFirstName.TabIndex = 4;
@@ -121,7 +189,7 @@
       // 
       // custLastName
       // 
-      this.custLastName.Location = new System.Drawing.Point(127, 92);
+      this.custLastName.Location = new System.Drawing.Point(127, 184);
       this.custLastName.Name = "custLastName";
       this.custLastName.Size = new System.Drawing.Size(100, 20);
       this.custLastName.TabIndex = 5;
@@ -129,7 +197,7 @@
       // lblLastName
       // 
       this.lblLastName.AutoSize = true;
-      this.lblLastName.Location = new System.Drawing.Point(128, 77);
+      this.lblLastName.Location = new System.Drawing.Point(128, 169);
       this.lblLastName.Name = "lblLastName";
       this.lblLastName.Size = new System.Drawing.Size(58, 13);
       this.lblLastName.TabIndex = 6;
@@ -138,7 +206,7 @@
       // lblPhone
       // 
       this.lblPhone.AutoSize = true;
-      this.lblPhone.Location = new System.Drawing.Point(244, 77);
+      this.lblPhone.Location = new System.Drawing.Point(244, 169);
       this.lblPhone.Name = "lblPhone";
       this.lblPhone.Size = new System.Drawing.Size(38, 13);
       this.lblPhone.TabIndex = 8;
@@ -146,7 +214,7 @@
       // 
       // custEmail
       // 
-      this.custEmail.Location = new System.Drawing.Point(16, 132);
+      this.custEmail.Location = new System.Drawing.Point(16, 224);
       this.custEmail.Name = "custEmail";
       this.custEmail.Size = new System.Drawing.Size(210, 20);
       this.custEmail.TabIndex = 9;
@@ -154,7 +222,7 @@
       // lblEmail
       // 
       this.lblEmail.AutoSize = true;
-      this.lblEmail.Location = new System.Drawing.Point(16, 117);
+      this.lblEmail.Location = new System.Drawing.Point(16, 209);
       this.lblEmail.Name = "lblEmail";
       this.lblEmail.Size = new System.Drawing.Size(32, 13);
       this.lblEmail.TabIndex = 10;
@@ -164,7 +232,7 @@
       // 
       this.lblSelectProduct.AutoSize = true;
       this.lblSelectProduct.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.lblSelectProduct.Location = new System.Drawing.Point(8, 253);
+      this.lblSelectProduct.Location = new System.Drawing.Point(8, 345);
       this.lblSelectProduct.Name = "lblSelectProduct";
       this.lblSelectProduct.Size = new System.Drawing.Size(91, 13);
       this.lblSelectProduct.TabIndex = 11;
@@ -173,7 +241,7 @@
       // productList
       // 
       this.productList.FormattingEnabled = true;
-      this.productList.Location = new System.Drawing.Point(17, 270);
+      this.productList.Location = new System.Drawing.Point(17, 362);
       this.productList.Name = "productList";
       this.productList.Size = new System.Drawing.Size(299, 21);
       this.productList.TabIndex = 15;
@@ -183,7 +251,7 @@
       // 
       this.lblSelectBookPDF.AutoSize = true;
       this.lblSelectBookPDF.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.lblSelectBookPDF.Location = new System.Drawing.Point(6, 164);
+      this.lblSelectBookPDF.Location = new System.Drawing.Point(6, 256);
       this.lblSelectBookPDF.Name = "lblSelectBookPDF";
       this.lblSelectBookPDF.Size = new System.Drawing.Size(173, 13);
       this.lblSelectBookPDF.TabIndex = 13;
@@ -196,7 +264,7 @@
       // 
       // button1
       // 
-      this.button1.Location = new System.Drawing.Point(322, 179);
+      this.button1.Location = new System.Drawing.Point(322, 271);
       this.button1.Name = "button1";
       this.button1.Size = new System.Drawing.Size(75, 23);
       this.button1.TabIndex = 12;
@@ -206,7 +274,7 @@
       // 
       // PDFLocation
       // 
-      this.PDFLocation.Location = new System.Drawing.Point(17, 180);
+      this.PDFLocation.Location = new System.Drawing.Point(17, 272);
       this.PDFLocation.Name = "PDFLocation";
       this.PDFLocation.Size = new System.Drawing.Size(299, 20);
       this.PDFLocation.TabIndex = 11;
@@ -215,7 +283,7 @@
       // 
       this.lblCoverPath.AutoSize = true;
       this.lblCoverPath.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.lblCoverPath.Location = new System.Drawing.Point(7, 207);
+      this.lblCoverPath.Location = new System.Drawing.Point(7, 299);
       this.lblCoverPath.Name = "lblCoverPath";
       this.lblCoverPath.Size = new System.Drawing.Size(209, 13);
       this.lblCoverPath.TabIndex = 16;
@@ -223,7 +291,7 @@
       // 
       // jpgLocation
       // 
-      this.jpgLocation.Location = new System.Drawing.Point(17, 224);
+      this.jpgLocation.Location = new System.Drawing.Point(17, 316);
       this.jpgLocation.Name = "jpgLocation";
       this.jpgLocation.Size = new System.Drawing.Size(299, 20);
       this.jpgLocation.TabIndex = 13;
@@ -235,7 +303,7 @@
       // 
       // button2
       // 
-      this.button2.Location = new System.Drawing.Point(322, 222);
+      this.button2.Location = new System.Drawing.Point(322, 314);
       this.button2.Name = "button2";
       this.button2.Size = new System.Drawing.Size(75, 23);
       this.button2.TabIndex = 14;
@@ -247,7 +315,7 @@
       // 
       this.label1.AutoSize = true;
       this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.label1.Location = new System.Drawing.Point(322, 253);
+      this.label1.Location = new System.Drawing.Point(322, 345);
       this.label1.Name = "label1";
       this.label1.Size = new System.Drawing.Size(54, 13);
       this.label1.TabIndex = 19;
@@ -255,7 +323,7 @@
       // 
       // quantity
       // 
-      this.quantity.Location = new System.Drawing.Point(322, 270);
+      this.quantity.Location = new System.Drawing.Point(322, 362);
       this.quantity.Name = "quantity";
       this.quantity.Size = new System.Drawing.Size(75, 20);
       this.quantity.TabIndex = 16;
@@ -263,7 +331,7 @@
       // 
       // btnCreateOrder
       // 
-      this.btnCreateOrder.Location = new System.Drawing.Point(324, 411);
+      this.btnCreateOrder.Location = new System.Drawing.Point(324, 503);
       this.btnCreateOrder.Name = "btnCreateOrder";
       this.btnCreateOrder.Size = new System.Drawing.Size(75, 23);
       this.btnCreateOrder.TabIndex = 18;
@@ -274,7 +342,7 @@
       // 
       // btnPreview
       // 
-      this.btnPreview.Location = new System.Drawing.Point(325, 411);
+      this.btnPreview.Location = new System.Drawing.Point(325, 503);
       this.btnPreview.Name = "btnPreview";
       this.btnPreview.Size = new System.Drawing.Size(75, 23);
       this.btnPreview.TabIndex = 17;
@@ -286,7 +354,7 @@
       // 
       this.lblPageCount.AutoSize = true;
       this.lblPageCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.lblPageCount.Location = new System.Drawing.Point(37, 308);
+      this.lblPageCount.Location = new System.Drawing.Point(37, 400);
       this.lblPageCount.Name = "lblPageCount";
       this.lblPageCount.Size = new System.Drawing.Size(77, 13);
       this.lblPageCount.TabIndex = 24;
@@ -296,7 +364,7 @@
       // 
       this.lblExtraPages.AutoSize = true;
       this.lblExtraPages.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.lblExtraPages.Location = new System.Drawing.Point(8, 324);
+      this.lblExtraPages.Location = new System.Drawing.Point(8, 416);
       this.lblExtraPages.Name = "lblExtraPages";
       this.lblExtraPages.Size = new System.Drawing.Size(106, 13);
       this.lblExtraPages.TabIndex = 25;
@@ -306,7 +374,7 @@
       // 
       this.lblOrderTotal.AutoSize = true;
       this.lblOrderTotal.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.lblOrderTotal.Location = new System.Drawing.Point(39, 341);
+      this.lblOrderTotal.Location = new System.Drawing.Point(39, 433);
       this.lblOrderTotal.Name = "lblOrderTotal";
       this.lblOrderTotal.Size = new System.Drawing.Size(75, 13);
       this.lblOrderTotal.TabIndex = 26;
@@ -315,7 +383,7 @@
       // pageCount
       // 
       this.pageCount.AutoSize = true;
-      this.pageCount.Location = new System.Drawing.Point(113, 308);
+      this.pageCount.Location = new System.Drawing.Point(113, 400);
       this.pageCount.Name = "pageCount";
       this.pageCount.Size = new System.Drawing.Size(0, 13);
       this.pageCount.TabIndex = 28;
@@ -323,7 +391,7 @@
       // extraPages
       // 
       this.extraPages.AutoSize = true;
-      this.extraPages.Location = new System.Drawing.Point(112, 324);
+      this.extraPages.Location = new System.Drawing.Point(112, 416);
       this.extraPages.Name = "extraPages";
       this.extraPages.Size = new System.Drawing.Size(0, 13);
       this.extraPages.TabIndex = 29;
@@ -331,7 +399,7 @@
       // orderTotal
       // 
       this.orderTotal.AutoSize = true;
-      this.orderTotal.Location = new System.Drawing.Point(114, 341);
+      this.orderTotal.Location = new System.Drawing.Point(114, 433);
       this.orderTotal.Name = "orderTotal";
       this.orderTotal.Size = new System.Drawing.Size(0, 13);
       this.orderTotal.TabIndex = 30;
@@ -339,7 +407,7 @@
       // lblInstructions1
       // 
       this.lblInstructions1.AutoSize = true;
-      this.lblInstructions1.Location = new System.Drawing.Point(10, 363);
+      this.lblInstructions1.Location = new System.Drawing.Point(10, 455);
       this.lblInstructions1.MaximumSize = new System.Drawing.Size(400, 0);
       this.lblInstructions1.Name = "lblInstructions1";
       this.lblInstructions1.Size = new System.Drawing.Size(395, 26);
@@ -350,7 +418,7 @@
       // 
       // btnUpdateForm
       // 
-      this.btnUpdateForm.Location = new System.Drawing.Point(240, 411);
+      this.btnUpdateForm.Location = new System.Drawing.Point(240, 503);
       this.btnUpdateForm.Name = "btnUpdateForm";
       this.btnUpdateForm.Size = new System.Drawing.Size(75, 23);
       this.btnUpdateForm.TabIndex = 32;
@@ -361,7 +429,7 @@
       // 
       // btnClearForm
       // 
-      this.btnClearForm.Location = new System.Drawing.Point(154, 411);
+      this.btnClearForm.Location = new System.Drawing.Point(154, 503);
       this.btnClearForm.Name = "btnClearForm";
       this.btnClearForm.Size = new System.Drawing.Size(75, 23);
       this.btnClearForm.TabIndex = 33;
@@ -371,7 +439,7 @@
       // 
       // btnCancel
       // 
-      this.btnCancel.Location = new System.Drawing.Point(68, 411);
+      this.btnCancel.Location = new System.Drawing.Point(68, 503);
       this.btnCancel.Name = "btnCancel";
       this.btnCancel.Size = new System.Drawing.Size(75, 23);
       this.btnCancel.TabIndex = 34;
@@ -385,7 +453,7 @@
       this.chkPrint.Checked = true;
       this.chkPrint.CheckState = System.Windows.Forms.CheckState.Checked;
       this.chkPrint.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.chkPrint.Location = new System.Drawing.Point(243, 391);
+      this.chkPrint.Location = new System.Drawing.Point(243, 483);
       this.chkPrint.Name = "chkPrint";
       this.chkPrint.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
       this.chkPrint.Size = new System.Drawing.Size(157, 17);
@@ -407,17 +475,43 @@
       // 
       // custPhone
       // 
-      this.custPhone.Location = new System.Drawing.Point(243, 92);
+      this.custPhone.Location = new System.Drawing.Point(243, 184);
       this.custPhone.Mask = "(999) 000-0000";
       this.custPhone.Name = "custPhone";
       this.custPhone.Size = new System.Drawing.Size(91, 20);
       this.custPhone.TabIndex = 6;
       // 
+      // lklblConfStore
+      // 
+      this.lklblConfStore.AutoSize = true;
+      this.lklblConfStore.Location = new System.Drawing.Point(8, 9);
+      this.lklblConfStore.Name = "lklblConfStore";
+      this.lklblConfStore.Size = new System.Drawing.Size(135, 13);
+      this.lklblConfStore.TabIndex = 37;
+      this.lklblConfStore.TabStop = true;
+      this.lklblConfStore.Text = "Configure Store Information";
+      this.lklblConfStore.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lklblConfStore_LinkClicked);
+      // 
+      // lnklblChangeStore
+      // 
+      this.lnklblChangeStore.AutoSize = true;
+      this.lnklblChangeStore.Location = new System.Drawing.Point(11, 9);
+      this.lnklblChangeStore.Name = "lnklblChangeStore";
+      this.lnklblChangeStore.Size = new System.Drawing.Size(127, 13);
+      this.lnklblChangeStore.TabIndex = 39;
+      this.lnklblChangeStore.TabStop = true;
+      this.lnklblChangeStore.Text = "Change Store Information";
+      this.lnklblChangeStore.Visible = false;
+      this.lnklblChangeStore.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnklblChangeStore_LinkClicked);
+      // 
       // Form1
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(417, 444);
+      this.ClientSize = new System.Drawing.Size(417, 539);
+      this.Controls.Add(this.lnklblChangeStore);
+      this.Controls.Add(this.pnlStoreInfo);
+      this.Controls.Add(this.lklblConfStore);
       this.Controls.Add(this.custPhone);
       this.Controls.Add(this.linkLabel1);
       this.Controls.Add(this.chkPrint);
@@ -451,12 +545,12 @@
       this.Controls.Add(this.lblFirstName);
       this.Controls.Add(this.custFirstName);
       this.Controls.Add(this.lblCustInfo);
-      this.Controls.Add(this.selStoreNumber);
-      this.Controls.Add(this.lblDownloading);
       this.Name = "Form1";
       this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
       this.Text = "Ritz Order Builder";
       this.Load += new System.EventHandler(this.Form1_Load);
+      this.pnlStoreInfo.ResumeLayout(false);
+      this.pnlStoreInfo.PerformLayout();
       this.ResumeLayout(false);
       this.PerformLayout();
 
@@ -465,7 +559,6 @@
     #endregion
 
     private System.ComponentModel.BackgroundWorker backgroundWorker1;
-    private System.Windows.Forms.Label lblDownloading;
     private System.Windows.Forms.Label lblCustInfo;
     private System.Windows.Forms.Label lblFirstName;
     private System.Windows.Forms.Label lblLastName;
@@ -479,7 +572,6 @@
     private System.Windows.Forms.OpenFileDialog openFileDialog2;
     private System.Windows.Forms.Button button2;
     private System.Windows.Forms.Label label1;
-    public System.Windows.Forms.ComboBox selStoreNumber;
     public System.Windows.Forms.TextBox custFirstName;
     public System.Windows.Forms.TextBox custLastName;
     public System.Windows.Forms.TextBox custEmail;
@@ -502,6 +594,16 @@
     public System.Windows.Forms.CheckBox chkPrint;
     private System.Windows.Forms.LinkLabel linkLabel1;
     public System.Windows.Forms.MaskedTextBox custPhone;
+    private System.Windows.Forms.LinkLabel lklblConfStore;
+    private System.Windows.Forms.LinkLabel lnklblChangeStore;
+    public System.Windows.Forms.Label lblStoreContact;
+    public System.Windows.Forms.Label lblStoreContactEmail;
+    public System.Windows.Forms.Label lblStorePhone;
+    public System.Windows.Forms.Label lblStoreCityStateZip;
+    public System.Windows.Forms.Label lblStoreAddress;
+    public System.Windows.Forms.Label lblStoreNum;
+    public System.Windows.Forms.Label lblStoreName;
+    private System.Windows.Forms.Panel pnlStoreInfo;
   }
 }
 

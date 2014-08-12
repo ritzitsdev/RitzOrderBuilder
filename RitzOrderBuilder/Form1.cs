@@ -26,19 +26,16 @@ namespace RitzOrderBuilder
     private void Form1_Load(object sender, EventArgs e)
     {
       backgroundWorker1.RunWorkerAsync();
-      this.ActiveControl = selStoreNumber;
+      showStoreInfo();
     }
 
     private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
     {
-      //Get the latest version of ritzsetup.xml (for store locations) and builderSettings.xml
-      string remoteStoreInfoXml = "http://ritzpix.com/media/files/ritzsetup.xml";
-      string localStoreInfoXml = @"C:\Program Files\ITS\OrderBuilder\ritzsetup.xml";
+      //Get the latest version of builderSettings.xml
       string remoteBuilderSettings = "http://ritzpix.com/media/files/OrderBuilder/builderSettings.xml";
       string localBuilderSettings = @"C:\Program Files\ITS\OrderBuilder\builderSettings.xml";
 
       WebClient client = new WebClient();
-      client.DownloadFile(remoteStoreInfoXml, localStoreInfoXml);
       client.DownloadFile(remoteBuilderSettings, localBuilderSettings);
     } //end backgroundWorker1_DoWork
 
@@ -46,35 +43,43 @@ namespace RitzOrderBuilder
     {
       if (!(e.Error == null))
       {
-        this.lblDownloading.Text = "Could not download updates. " + e.Error.Message;
+        //this.lblDownloading.Text = "Could not download updates. " + e.Error.Message;
+        if(!File.Exists(@"C:\Program Files\ITS\OrderBuilder\builderSettings.xml")){
+          MessageBox.Show("Unable to download lastest product list.\nPlease check you Internet connection and relaunch the application.");
+        }
       }
-      else
-      {
-        lblDownloading.Text = "Select Store";
-        lblDownloading.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-        selStoreNumber.Enabled = true;
-      }
-        populateStoreList();
         populateProductList();
     } //end backgroundWorker1_RunWorkerCompleted
 
-    private void populateStoreList()
+    public void showStoreInfo()
     {
-      //populate store number combobox
-      string pathLocations = @"C:\Program Files\ITS\OrderBuilder\ritzsetup.xml";
-      if (File.Exists(pathLocations))
+      string xmlStoreInfo = @"C:\Program Files\ITS\OrderBuilder\BuilderStoreInfo.xml";
+      if (!File.Exists(xmlStoreInfo))
       {
-        XDocument xDocLocations = XDocument.Load(pathLocations);
-        var qryLocations = from locations in xDocLocations.Descendants("location")
-                           where locations.Attribute("store_number").Value.IndexOf("0030") < 0
-                           select new { Store = locations.Attribute("store_number").Value };
-
-        selStoreNumber.ValueMember = "Store";
-        selStoreNumber.DisplayMember = "Store";
-        selStoreNumber.DataSource = qryLocations.ToList();
-        selStoreNumber.BindingContext = new BindingContext();
+        return;
       }
-    } //end populateStoreList
+      else
+      {
+        lklblConfStore.Visible = false;
+        lnklblChangeStore.Visible = true;
+        XDocument xDocStoreInfo = XDocument.Load(xmlStoreInfo);
+        var qryStoreInfo = from els in xDocStoreInfo.Descendants("store_info")
+                           select els;
+        foreach (var el in qryStoreInfo)
+        {
+          lblStoreName.Text = el.Element("store_name").Value.Replace("&", "&&");
+          lblStoreNum.Text = el.Element("store_number").Value;
+          lblStoreAddress.Text = el.Element("store_address").Value;
+          lblStoreCityStateZip.Text = el.Element("store_city").Value + ", ";
+          lblStoreCityStateZip.Text += el.Element("store_state").Value + ", ";
+          lblStoreCityStateZip.Text += el.Element("store_zip").Value;
+          lblStorePhone.Text = el.Element("store_phone").Value;
+          lblStoreContactEmail.Text = el.Element("contact_email").Value;
+          lblStoreContact.Text = el.Element("contact_name").Value;
+        }
+        pnlStoreInfo.Visible = true;
+      }
+    }
 
     private void populateProductList()
     {
@@ -189,12 +194,24 @@ namespace RitzOrderBuilder
       {
         this.Cursor = Cursors.Default;
       }
-    }
+    } //end btnUpdateForm_Click
 
     private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
     {
       OrderHistory form = new OrderHistory();
       form.Show();
-    } //end btnUpdateForm_Click
+    }
+
+    private void lklblConfStore_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+    {
+      storeInfoSettings storeInfo = new storeInfoSettings();
+      storeInfo.Show();
+    }
+
+    private void lnklblChangeStore_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+    {
+      storeInfoSettings storeInfo = new storeInfoSettings();
+      storeInfo.Show();
+    }
   }
 }

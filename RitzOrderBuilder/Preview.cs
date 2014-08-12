@@ -16,7 +16,12 @@ namespace RitzOrderBuilder
   {
     public void buildPreview(Form1 form)
     {
-      string storeNum = Convert.ToString(form.selStoreNumber.SelectedValue);
+      string storeNum = form.lblStoreNum.Text;
+      if (String.IsNullOrEmpty(storeNum))
+      {
+        MessageBox.Show("Please configure store information.");
+        return;
+      }
       string pdfLocation = form.PDFLocation.Text;
       string productId = Convert.ToString(form.productList.SelectedValue);
       int qty = Convert.ToInt32(form.quantity.Text);

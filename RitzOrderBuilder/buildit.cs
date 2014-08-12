@@ -19,7 +19,7 @@ namespace RitzOrderBuilder
   {
     public void builder(Form1 form)
     {
-      string storeNum = Convert.ToString(form.selStoreNumber.SelectedValue);
+      string storeNum = form.lblStoreNum.Text;
       int apmId = Convert.ToInt32(storeNum) + 16000;
       string apm_id = apmId.ToString();
       string firstName = form.custFirstName.Text;
@@ -49,6 +49,12 @@ namespace RitzOrderBuilder
       string extraPages = form.extraPages.Text;
       string extraPageCount = extraPages.Split(' ')[0];
 
+      string storeCityStateZip = form.lblStoreCityStateZip.Text;
+      string[] arrStoreCityStateZip = storeCityStateZip.Split(',');
+      string storeCity = arrStoreCityStateZip[0].Trim();
+      string storeState = arrStoreCityStateZip[1].Trim();
+      string storeZip = arrStoreCityStateZip[2].Trim();
+
       string tempFolderName = orderNum + ".temp";
       string orderFolderPath = Path.Combine(@"C:\APM_TRANSFER\Orders\Outlab\", tempFolderName);
       createOrderFolder(orderFolderPath);
@@ -58,7 +64,7 @@ namespace RitzOrderBuilder
       {
         copyOrderFiles(jpgLocation, orderFolderPath, jpgName);
       }
-      Store store = new Store(storeNum);
+      //Store store = new Store(storeNum);
       //start creating the order xml
       XDocument xDoc = new XDocument(
         new XDeclaration("1.0", "windows-1252", null),
@@ -139,15 +145,15 @@ namespace RitzOrderBuilder
               new XAttribute("finish", "glossy")),
             new XElement("customer"),
             new XElement("store",
-              new XAttribute("contact_email", store.email),
-              new XAttribute("contact_name", store.contactName),
-              new XAttribute("store_address", store.address),
-              new XAttribute("store_city", store.city),
+              new XAttribute("contact_email", form.lblStoreContactEmail.Text),
+              new XAttribute("contact_name", form.lblStoreContact.Text),
+              new XAttribute("store_address", form.lblStoreAddress.Text),
+              new XAttribute("store_city", storeCity),
               new XAttribute("store_country", "US"),
               new XAttribute("store_id", storeNum),
-              new XAttribute("store_name", store.name),
-              new XAttribute("store_state", store.state),
-              new XAttribute("store_zip", store.zip))
+              new XAttribute("store_name", form.lblStoreName.Text.Replace("&&", "&")),
+              new XAttribute("store_state", storeState),
+              new XAttribute("store_zip", storeZip))
         );
 
 
@@ -293,8 +299,11 @@ namespace RitzOrderBuilder
         foreach (var item in qryProducts)
         {
           productName = item.Attribute("name").Value;
-          coverId = item.Element("cover").Attribute("id").Value;
-          coverName = item.Element("cover").Attribute("name").Value;
+          if (item.Element("cover") != null)
+          {
+            coverId = item.Element("cover").Attribute("id").Value;
+            coverName = item.Element("cover").Attribute("name").Value;
+          }
         }
       }
       return Tuple.Create(productName, coverId, coverName);
